@@ -6,7 +6,7 @@
 
 /* ============================== RESET ============================== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; overflow-x: hidden; }
 body {
   background: var(--bg-primary);
   color: var(--text-primary);
@@ -18,6 +18,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
+#root { overflow-x: hidden; }
 img, video { max-width: 100%; height: auto; display: block; }
 a { color: inherit; text-decoration: none; }
 button { cursor: pointer; border: none; background: none; font: inherit; color: inherit; }
@@ -422,7 +423,7 @@ p { line-height: 1.7; }
   .portfolio__grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 500px) {
-  .portfolio__grid { grid-template-columns: 1fr; max-width: 280px; margin-left: auto; margin-right: auto; }
+  .portfolio__grid { grid-template-columns: 1fr; max-width: 280px; margin-left: auto; margin-right: auto; justify-items: center; }
 }
 
 /* ---- iPhone Frame ---- */
@@ -608,7 +609,7 @@ p { line-height: 1.7; }
   max-width: 800px;
 }
 @media (max-width: 700px) {
-  .testimonials-video__grid { grid-template-columns: 1fr; max-width: 260px; margin-left: auto; margin-right: auto; }
+  .testimonials-video__grid { grid-template-columns: 1fr; max-width: 260px; margin-left: auto; margin-right: auto; justify-items: center; }
 }
 
 .testimonial-video {
@@ -1050,10 +1051,19 @@ p { line-height: 1.7; }
   .metrics__number { font-size: 2.25rem; }
   .step__number { width: 44px; height: 44px; min-width: 44px; font-size: 1rem; }
   .iphone-frame__notch-pill { width: 50px; height: 5px; }
+  .container { padding: 0 1rem; }
 }
 
 /* --- All mobile (< 768px) --- */
 @media (max-width: 767px) {
+  /* CRITICAL: Convert horizontal reveals to vertical on mobile (prevents horizontal scroll) */
+  .reveal--left,
+  .reveal--right {
+    transform: translateY(30px);
+  }
+  .reveal--up { transform: translateY(30px); }
+  .reveal--bottom { transform: translateY(-30px); }
+
   /* Hero mobile layout */
   .hero {
     min-height: auto;
@@ -1061,13 +1071,15 @@ p { line-height: 1.7; }
     padding-bottom: 3rem;
     text-align: center;
   }
+  .hero__badge { margin-left: auto; margin-right: auto; }
   .hero__subtitle { margin-left: auto; margin-right: auto; }
   .hero__trust { justify-content: center; gap: 1rem; }
   .hero__trust-item { font-size: 0.75rem; }
   .hero__img { max-width: 280px; margin: 0 auto; }
+  .hero__image { justify-content: center; }
   .hero__image::before { width: 90%; height: 90%; filter: blur(30px); }
 
-  /* Full-width buttons on mobile */
+  /* Full-width buttons on mobile — centered */
   .hero .btn,
   .qualification__content .btn,
   .about__cta .btn,
@@ -1075,6 +1087,7 @@ p { line-height: 1.7; }
     width: 100%;
     justify-content: center;
   }
+  .about__cta { display: flex; justify-content: center; }
 
   /* Metrics compact mobile */
   .metrics__grid { gap: 0.75rem; }
@@ -1092,12 +1105,17 @@ p { line-height: 1.7; }
   .step { padding: 1.25rem; gap: 1rem; }
   .step__content p { font-size: 0.875rem; }
 
-  /* Portfolio - 2 col on phones > 500px, handled above for < 500px */
-  .portfolio__grid { gap: 1rem; }
+  /* Portfolio centered mobile */
+  .portfolio__grid { gap: 1rem; justify-items: center; }
+  .iphone-frame { width: 100%; }
   .iphone-frame .video-card__play { width: 40px; height: 40px; }
   .iphone-frame .video-card__play svg { width: 18px; height: 18px; }
   .iphone-frame__title { font-size: 0.75rem; margin-top: 0.625rem; }
-  .portfolio__cta-text { font-size: 0.9375rem; }
+  .portfolio__cta-text { font-size: 0.9375rem; text-align: center; }
+
+  /* Testimonials centered mobile */
+  .testimonials-video__grid { justify-items: center; }
+  .testimonial-video { width: 100%; }
 
   /* Testimonials compact */
   .testimonial-card { padding: 1.5rem; }
@@ -1108,7 +1126,8 @@ p { line-height: 1.7; }
   .about__container { gap: 2rem; }
   .about__content { text-align: center; }
   .about__content h2 { text-align: center; }
-  .about__img { max-width: 240px; }
+  .about__img { max-width: 240px; margin: 0 auto; }
+  .about__image-wrapper { justify-content: center; }
 
   /* FAQ compact */
   .accordion-item__header { font-size: 0.9375rem; padding: 1.125rem 0; }
@@ -1141,12 +1160,6 @@ p { line-height: 1.7; }
   .modal-content { border-radius: var(--radius-lg); }
   .modal-content video { border-radius: var(--radius-lg); max-height: 70vh; }
   .modal-close { top: -44px; width: 36px; height: 36px; font-size: 1.25rem; }
-
-  /* Reduce reveal animation distance on mobile (smoother) */
-  .reveal--left { transform: translateX(-40px); }
-  .reveal--right { transform: translateX(40px); }
-  .reveal--up { transform: translateY(30px); }
-  .reveal--bottom { transform: translateY(-30px); }
 }
 
 /* --- Touch devices: remove hover effects --- */
